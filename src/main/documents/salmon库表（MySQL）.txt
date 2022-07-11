@@ -1,0 +1,51 @@
+﻿create database if not exists hive_sync_new;
+
+CREATE TABLE if not exists main_task (
+  id INTEGER PRIMARY KEY AUTO_INCREMENT comment '自增主键',
+  main_task_args varchar(255) DEFAULT NULL comment '数据同步的参数',
+  source_cluster varchar(255) DEFAULT NULL comment '源集群名称',
+  target_cluster varchar(255) DEFAULT NULL comment '目标集群名称',
+  main_task_status varchar(11) DEFAULT NULL comment '主任务运行状态 running 运行中 finish 运行结束',
+  main_task_result varchar(11) DEFAULT NULL comment '主任务运行结果，这个结果受所有子任务运行结果影响，success 运行成功 warn 部分运行成功，警告状态 fail 运行失败，kill 手动kill',
+  start_time timestamp DEFAULT CURRENT_TIMESTAMP comment '主任务开始时间',
+  stop_time timestamp DEFAULT CURRENT_TIMESTAMP comment '主任务结束时间',
+  create_time timestamp DEFAULT CURRENT_TIMESTAMP comment '记录插入时间，数据库维护',
+  update_time timestamp DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP comment '记录更新时间，数据库维护'
+);
+
+CREATE TABLE if not exists sub_task (
+  id INTEGER PRIMARY KEY AUTO_INCREMENT  comment '自增主键',
+  source_cluster varchar(255) DEFAULT NULL comment '源集群名称',
+  source_db varchar(255) DEFAULT NULL comment '源数据库名称',
+  source_tb varchar(255) DEFAULT NULL comment '源数据表名称',
+  target_cluster varchar(255) DEFAULT NULL comment '目标集群名称',
+  target_db varchar(255) DEFAULT NULL comment '目标数据库名称',
+  target_tb varchar(255) DEFAULT NULL comment '目标数据表名称',
+  metadata_sync_status varchar(11) NOT NULL comment '元数据同步状态wait 等待同步 success 同步成功 fail 同步失败，默认值wait',
+  metadata_sync_retry int(11) DEFAULT '0' comment '元数据同步重试次数【预留字段】',
+  maindata_sync_status varchar(11) NOT NULL comment '主数据同步状态wait 等待同步 running 正在同步 success 同步成功 fail 同步失败，默认值wait',
+  maindata_sync_source_path varchar(255) DEFAULT NULL comment '源集群表的location',
+  maindata_sync_target_path varchar(255) DEFAULT NULL comment '目标集群表的location',
+  maindata_sync_args text DEFAULT NULL comment 'distcp作业参数',
+  maindata_sync_job_id varchar(255) DEFAULT NULL comment '主数据同步触发distcp后生成的MR的id',
+  maindata_sync_job_status varchar(11) DEFAULT NULL comment 'MR作业运行状态，这里是直接采用的JobStatus.State自身的状态值RUNNING/SUCCEEDED/FAILED/PREP/KILLED',
+  maindata_sync_retry int(11) DEFAULT '0' comment '主数据distcp同步的重试次数',
+  maindata_sync_start timestamp NULL DEFAULT NULL comment '主数据同步开始时间',
+  maindata_sync_stop timestamp NULL DEFAULT NULL comment '主数据同步结束时间',
+  main_task_id int(11) DEFAULT NULL comment '主任务表的id',
+  sub_task_status varchar(255) DEFAULT 'normal' comment '子任务状态 discard 丢弃',
+  create_time timestamp NULL DEFAULT CURRENT_TIMESTAMP comment '记录插入时间，数据库维护',
+  update_time timestamp NULL DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP comment '记录更新时间，数据库维护'
+);
+
+CREATE TABLE if not exists snapshot(
+ id INTEGER PRIMARY KEY AUTO_INCREMENT comment '自增主键',
+ path varchar(255) DEFAULT NULL comment '快照路径',
+ name varchar(255) DEFAULT NULL comment '快照名称',
+ cluster varchar(255) DEFAULT NULL comment '快照类型 源/目标',
+ type varchar(255) DEFAULT NULL comment '快照类型 源/目标',
+ main_task_id int(11) DEFAULT NULL comment '主任务表的id',
+ create_time timestamp NULL DEFAULT CURRENT_TIMESTAMP comment '记录插入时间，数据库维护',
+ update_time timestamp NULL DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP comment '记录更新时间，数据库维护',
+ delete_flag int(11) DEFAULT 0 comment '删除标记 default 0 删除则更新为1'
+);
