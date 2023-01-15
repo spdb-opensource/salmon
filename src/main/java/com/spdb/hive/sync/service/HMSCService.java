@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-
+import com.spdb.hive.sync.util.LogUtil;
 /**
  * project：hive-sync
  * package：com.spdb.hive.replication.service
@@ -35,7 +35,7 @@ public class HMSCService {
 
     private SubTaskService subTaskService = new SubTaskService();
 
-    private final static Logger logger = LogManager.getLogger(HMSCService.class);
+    private final static Logger logger = LogUtil.getLogger();
 
     /**
      * @param mid  主任务对象

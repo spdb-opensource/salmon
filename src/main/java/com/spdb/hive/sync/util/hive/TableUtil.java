@@ -18,7 +18,7 @@ import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-
+import com.spdb.hive.sync.util.LogUtil;
 /**
  * project：hive-test
  * package：com.spdb.hive.replication.util.hive
@@ -28,7 +28,7 @@ import org.apache.logging.log4j.LogManager;
  */
 public class TableUtil {
 
-    private final static Logger logger = LogManager.getLogger(TableUtil.class);
+    private final static Logger logger = LogUtil.getLogger();
 
     /**
      * 对table对象的元数据进行比较

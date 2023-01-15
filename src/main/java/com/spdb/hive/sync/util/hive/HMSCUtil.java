@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
+import com.spdb.hive.sync.util.LogUtil;
 /**
  * project：hive-test
  * package：com.spdb.hive.replication.util
@@ -26,7 +26,7 @@ import java.util.Set;
 public class HMSCUtil {
 
     // Logger和LoggerFactory导入的是org.slf4j包
-    private final static Logger logger = LogManager.getLogger(HMSCUtil.class);
+    private final static Logger logger = LogUtil.getLogger();
 
     /**
      * 输出表详情信息

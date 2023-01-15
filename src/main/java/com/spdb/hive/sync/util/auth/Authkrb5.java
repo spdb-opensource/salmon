@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
-
+import com.spdb.hive.sync.util.LogUtil;
 /**
  * project：hive-test
  * package：com.spdb.hive.replication.util.auth
@@ -18,8 +18,7 @@ import java.io.IOException;
 public class Authkrb5 {
 
     // Logger和LoggerFactory导入的是org.slf4j包
-    private final static Logger logger = LogManager.getLogger(Authkrb5.class);
-
+    private final static Logger logger = LogUtil.getLogger();
     /**
      * 进行kerberos身份认证
      *

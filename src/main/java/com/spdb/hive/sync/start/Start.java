@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
+import com.spdb.hive.sync.util.LogUtil;
 /**
  * project：hive-test
  * package：com.spdb.hive.replication.start
@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 public class Start {
     // Logger和LoggerFactory导入的是org.slf4j包
     //ceshi
-    private final static Logger logger = LogManager.getLogger(Start.class);
+    private static Logger logger = LogUtil.getLogger();
     private static MainTaskService mainTaskService = new MainTaskService();
     private static SubTaskService subTaskService = new SubTaskService();
 

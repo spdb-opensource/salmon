@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.util.*;
-
+import com.spdb.hive.sync.util.LogUtil;
 /**
  * project：hive-sync
  * package：com.spdb.hive.sync.util.progress
@@ -20,8 +20,7 @@ import java.util.*;
  */
 public class ProgressUtil {
 
-    private final static Logger logger = LogManager.getLogger(ProgressUtil.class);
-
+    private final static Logger logger = LogUtil.getLogger();
     private static int mainTaskId = 0;
 
     private static HashMap<String, SubTask> items = new HashMap<String, SubTask>();

@@ -1654,6 +1654,7 @@ public class MyHiveMetaStoreClient implements IMetaStoreClient, AutoCloseable {
      * @throws NoSuchObjectException
      * @throws TException
      */
+    @Override
     public int getNumPartitionsByFilter(String db_name, String tbl_name,
                                         String filter) throws MetaException,
             NoSuchObjectException, TException {

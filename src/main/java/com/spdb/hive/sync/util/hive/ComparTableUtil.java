@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-
+import com.spdb.hive.sync.util.LogUtil;
 
 /**
  * project：hive-test
@@ -26,8 +26,7 @@ import java.util.Set;
 public class ComparTableUtil {
 
     // Logger和LoggerFactory导入的是org.slf4j包
-    private final static Logger logger = LoggerFactory.getLogger(Start.class);
-
+    private final static Logger logger = LogUtil.getLogger();
 
     /**
      * @param desCluster_S 目标集群名称，这里的名称取的是cluster.properties中的值

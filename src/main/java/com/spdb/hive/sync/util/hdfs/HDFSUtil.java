@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.*;
-
+import com.spdb.hive.sync.util.LogUtil;
 /**
  * project：hive-sync-1.2
  * package：com.spdb.hive.sync.util.hdfs
@@ -28,7 +28,7 @@ import java.util.*;
  * description：
  */
 public class HDFSUtil {
-    private final static Logger logger = LogManager.getLogger(HDFSUtil.class);
+    private final static Logger logger = LogUtil.getLogger();
     private static SnapshotService snapshotService = new SnapshotService();
     private static HMSCService hmscService = new HMSCService();
     //  存放源集群每个目录对应的目标集群目录

@@ -8,7 +8,7 @@ import com.spdb.hive.sync.util.parser.OptionParserUtil;
 import com.spdb.hive.sync.util.property.PropUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import com.spdb.hive.sync.util.LogUtil;
 /**
  * project：hive-sync-1.2
  * package：com.spdb.hive.sync.kill
@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class Kill {
     // Logger和LoggerFactory导入的是org.slf4j包
-    private final static Logger logger = LogManager.getLogger(Kill.class);
+    private final static Logger logger = LogUtil.getLogger();
     private static MainTaskService mainTaskService = new MainTaskService();
 
     public static void main(String[] args) {

@@ -9,7 +9,7 @@ import java.io.*;
 import java.net.URLDecoder;
 import java.util.Properties;
 import java.util.Set;
-
+import com.spdb.hive.sync.util.LogUtil;
 /**
  * project：hive-sync
  * package：com.spdb.hive.sync.util.property
@@ -20,8 +20,7 @@ import java.util.Set;
 public class PropUtil {
 
     // Logger和LoggerFactory导入的是org.slf4j包
-    private final static Logger logger = LogManager.getLogger(PropUtil.class);
-
+    private final static Logger logger = LogUtil.getLogger();
     private static Properties properties = new Properties();
 
     private static InputStream input;
@@ -31,7 +30,7 @@ public class PropUtil {
      */
     static {
         try {
-            input = PropUtil.class.getClassLoader().getResourceAsStream("cluster.properties");
+            InputStream input = PropUtil.class.getClassLoader().getResourceAsStream("cluster.properties");
             properties.load(input);
             logger.info("默认配置文件加载成功：cluster.properties");
             printValues();
@@ -40,7 +39,7 @@ public class PropUtil {
             if (bashPath.endsWith(".jar")) {
                 bashPath = bashPath.substring(0, bashPath.lastIndexOf("/") + 1) + "../conf/cluster.properties";
             }
-            is = new FileInputStream(bashPath);
+            InputStream is = new FileInputStream(bashPath);
             properties.load(is);
             logger.info("用户配置文件加载成功：cluster.properties");
             printValues();

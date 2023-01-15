@@ -21,7 +21,7 @@ import org.apache.thrift.TException;
 import org.apache.yetus.audience.InterfaceAudience;
 
 import java.util.ArrayList;
-
+import com.spdb.hive.sync.util.LogUtil;
 /**
  * project：hive-sync
  * package：com.spdb.hive.sync.concurrent
@@ -39,7 +39,7 @@ public class SyncThread implements Runnable {
     //  运行模式
     private String mode;
 
-    private final static Logger logger = LogManager.getLogger(SyncThread.class);
+    private final static Logger logger = LogUtil.getLogger();
 
     public SyncThread(MainTask mainTask, String mode) {
         this.mainTask = mainTask;

@@ -6,7 +6,7 @@ import org.apache.commons.cli.*;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import com.spdb.hive.sync.util.LogUtil;
 /**
  * project：hive-sync-1.1
  * package：com.spdb.hive.sync.util.parser
@@ -15,8 +15,7 @@ import org.apache.logging.log4j.Logger;
  * description：
  */
 public class OptionParserUtil {
-    private final static Logger logger = LogManager.getLogger(OptionParserUtil.class);
-
+    private final static Logger logger = LogUtil.getLogger();
     public static int optionParse(String[] args) {
         try {
             //  定义参数选项
