@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import com.spdb.hive.sync.util.LogUtil;
+import static com.spdb.hive.sync.util.confPath.ConfigPath.getConfPath;
+
 /**
  * project：hive-test
  * package：com.spdb.hive.replication.util
@@ -132,7 +134,7 @@ public class HMSCUtil {
             HiveConf hc = new HiveConf();
 
             String hiveConf = PropUtil.getProValue(clusterConfPath);
-
+            hiveConf=getConfPath()+hiveConf;
             if (hiveConf == null) {
                 logger.error("集群配置文件加载失败，程序退出" + clusterConfPath);
                 System.exit(1);

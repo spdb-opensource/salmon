@@ -8,6 +8,8 @@ import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
 import com.spdb.hive.sync.util.LogUtil;
+import static com.spdb.hive.sync.util.confPath.ConfigPath.getConfPath;
+
 /**
  * project：hive-test
  * package：com.spdb.hive.replication.util.auth
