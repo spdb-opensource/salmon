@@ -4,6 +4,7 @@ import com.spdb.hive.sync.concurrent.SyncThread;
 import com.spdb.hive.sync.concurrent.TableQueue;
 import com.spdb.hive.sync.concurrent.authKrb5Thread;
 import com.spdb.hive.sync.constant.Constant;
+import com.spdb.hive.sync.distcp.HdfsFileDistcp;
 import com.spdb.hive.sync.entity.MainTask;
 import com.spdb.hive.sync.entity.SubTask;
 import com.spdb.hive.sync.entity.SyncEntity;
@@ -44,24 +45,64 @@ public class Start {
     public static void main(String[] args) {
         int retype = 0;
         if (args != null && args.length > 1) {
-            //  参数解析
-            int flg = OptionParserUtil.optionParse(args);
-            if (flg < 0) {
-                logger.error("输入参数有误，请重新输入");
-                System.exit(-1);
-                return;
-            }
-            //  数据同步
-            retype = run(args);
+
+
+            List<String> ipAndCommandId = Arrays.asList(args[args.length - 1].split(":"));
+
+            //设置全局变量log4j的后半路径
+            System.setProperty("COMMANDID_SALMON_LOG", ipAndCommandId.get(1) + "_salmon.log");
+
+
+            retype = 0;
+            if (args.length > 1) {
+                String[] tmpArgs = new String[args.length - 1];
+                //保存args的最后参数,判断commandid和kerbros
+                //  参数解析
+                System.arraycopy(args, 0, tmpArgs, 0, args.length - 1);
+                int flg = OptionParserUtil.optionParse(tmpArgs);
+                if (flg < 0) {
+                    logger.error("输入参数有误，请重新输入");
+                    System.exit(-1);
+                    return;
+                }
+                //  数据同步
+                retype = run(args);
 //            System.out.println(retype);
-            System.exit(retype);
-        } else {
-            logger.error("输入参数有误，请重新输入");
-            usage();
-            System.exit(-1);
+
+                //同步文件
+                if (tmpArgs[4].contains("/")) {
+                    try {
+                        retype = runFile(tmpArgs);
+                        logger.info("文件同步,参数" + Arrays.toString(tmpArgs));
+                        resultURL(ipAndCommandId.get(0), ipAndCommandId.get(1), "success");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    //同步表
+                    try {
+                        retype = run(tmpArgs);
+                        logger.info("库表同步,参数" + Arrays.toString(tmpArgs));
+                        resultURL(ipAndCommandId.get(0), ipAndCommandId.get(1), "failed");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //系统退出
+                System.exit(retype);
+
+            } else {
+                logger.error("输入参数有误，请重新输入");
+                usage();
+                System.exit(-1);
+            }
         }
     }
-
+    public static int runFile(String[] args) {
+        HdfsFileDistcp hdfsFileDistcp = new HdfsFileDistcp();
+        hdfsFileDistcp.syncFileData(args[0], args[1], args[4], args[5]);
+        return 0;
+    }
     public static int run(String[] args) {
         int retype = 0;
         //  如果是手动kill主任务

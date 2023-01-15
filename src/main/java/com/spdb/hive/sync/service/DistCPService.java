@@ -24,6 +24,7 @@ import com.spdb.hive.sync.util.LogUtil;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.spdb.hive.sync.util.confs.PathUtil.getCurrentPath;
+import static com.spdb.hive.sync.util.confPath.ConfigPath.getConfPath;
 
 /**
  * project：hive-sync
@@ -67,9 +68,9 @@ public class DistCPService {
 
             Configuration conf = new Configuration();
             //  distcp nameservices配置文件路径，包含所有集群的nameservice解析
-            conf.addResource(PropUtil.getProValue(tmpDistcpNameService));
+            conf.addResource(getConfPath()+PropUtil.getProValue(Constant.DISTCP_NAMESERVICES_CONF));
             //  distcp所提交的yarn集群配置文件路径，即yarn-site.xml配置文件路径
-            conf.addResource(PropUtil.getProValue(tmpDistcpNameService));
+            conf.addResource(getConfPath()+PropUtil.getProValue(Constant.DISTCP_YARN_CONF));
             conf.set("mapreduce.job.hdfs-servers.token-renewal.exclude", getNameservices(sourcePath, targetPath));
             ArrayList<Path> sourcePaths = new ArrayList<Path>();
 

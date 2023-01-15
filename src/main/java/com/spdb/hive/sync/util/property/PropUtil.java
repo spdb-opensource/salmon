@@ -10,6 +10,8 @@ import java.net.URLDecoder;
 import java.util.Properties;
 import java.util.Set;
 import com.spdb.hive.sync.util.LogUtil;
+import static com.spdb.hive.sync.util.confPath.ConfigPath.getConfPath;
+
 /**
  * project：hive-sync
  * package：com.spdb.hive.sync.util.property
@@ -34,11 +36,12 @@ public class PropUtil {
             properties.load(input);
             logger.info("默认配置文件加载成功：cluster.properties");
             printValues();
-            String bashPath = PropUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-            bashPath = URLDecoder.decode(bashPath, "utf-8");
-            if (bashPath.endsWith(".jar")) {
-                bashPath = bashPath.substring(0, bashPath.lastIndexOf("/") + 1) + "../conf/cluster.properties";
-            }
+//            String bashPath = PropUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+//            bashPath = URLDecoder.decode(bashPath, "utf-8");
+//            if (bashPath.endsWith(".jar")) {
+//                bashPath = bashPath.substring(0, bashPath.lastIndexOf("/") + 1) + "../conf/cluster.properties";
+//            }
+            String bashPath=getConfPath()+"cluster.properties";
             InputStream is = new FileInputStream(bashPath);
             properties.load(is);
             logger.info("用户配置文件加载成功：cluster.properties");
