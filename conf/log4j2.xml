@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <properties>
+<!--        <property name="LOG_HOME">D:/bomplog/hive-sync/logs</property>-->
+        <property name="LOG_HOME">${sys:user.home}/hive-sync/logs</property>
+        <!--<property name="LOG_HOME">/root/hive-sync/logs/</property>-->
+        <property name="FILE_NAME">hive-sync</property>
+        <property name="log.sql.level">$${env:HIVESYNCLOGLEVEL}</property>
+
+    </properties>
+
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %l - %msg%n" />
+        </Console>
+
+        <RollingRandomAccessFile name="RollingRandomAccessFile" fileName="${LOG_HOME}/${FILE_NAME}.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %l - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="${log.sql.level}">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingRandomAccessFile" />
+        </Root>
+
+        <Logger name="com.mengdee.dao" level="${log.sql.level}" additivity="false">
+            <AppenderRef ref="Console" />
+        </Logger>
+
+    </Loggers>
+        <logger name="org.apache.hadoop.hive.metastore.MyHiveMetaStoreClient">
+            <level value="off"/>
+        </logger>
+</Configuration>
